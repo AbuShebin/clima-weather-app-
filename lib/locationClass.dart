@@ -8,7 +8,7 @@ class Location{
 
   Future<void> getCurrentLocation()async{
     try{
-      Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
+      Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
       latitude=position.latitude;
       logitude=position.longitude;
     }catch(e){
