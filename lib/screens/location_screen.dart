@@ -1,3 +1,4 @@
+import 'package:clima/screens/city_screen.dart';
 import 'package:clima/services/weather.dart';
 import 'package:flutter/material.dart';
 import 'package:clima/utilities/constants.dart';
@@ -21,6 +22,7 @@ class _LocationScreenState extends State<LocationScreen> {
 
   updateUIWeather({var weatherData}){
      try{
+      print(weatherData);
     setState(() {
       WeatherModel weatherModel =WeatherModel();
       double temp = weatherData['main']['temp'];
@@ -37,19 +39,18 @@ class _LocationScreenState extends State<LocationScreen> {
       }
     print("$weatherData-weather data");
   }
-  
 
 @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    print("initstate=========================");
     updateUIWeather(weatherData: widget.weatherData);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -70,7 +71,9 @@ class _LocationScreenState extends State<LocationScreen> {
                 children: <Widget>[
                   ElevatedButton(
                     onPressed: () {
-                      WeatherModel().getLocationWeather();
+                      // WeatherModel().getLocationWeather();
+                      print('hi');
+                      print(cityName??'new york');
                     },
                     child: Icon(
                       Icons.near_me,
@@ -78,7 +81,23 @@ class _LocationScreenState extends State<LocationScreen> {
                     ),
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () async{
+                      print(1);
+                     var cityName=await Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                        return CityScreen();
+                      }));
+                      print("2");
+                      print(cityName??'no city');
+                      if(cityName!=null){
+                        print("hello worlsd");
+                        WeatherModel weather=WeatherModel();
+                       var weatherData=await weather.getCityWeather(cityName);
+                       print(weatherData);
+                        updateUIWeather(weatherData: weatherData);
+                        print(cityName); 
+                      }
+                      print("3");
+                    },
                     child: Icon(
                       Icons.location_city,
                       size: 50.0,

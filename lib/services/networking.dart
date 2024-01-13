@@ -6,16 +6,18 @@ class NetworkHelper{
   NetworkHelper({required this.url});
   final String url;
 
-  Future getData({required latitude,required longitude})async{
+  Future getData()async{
        http.Response response = await http.get(Uri.parse(
         url));
-       
+        
     if (response.statusCode == 200) {
-       String data=response.body;
 
+       String data=response.body;
+print("success");
       return jsonDecode(data);
     } else {
       print(response.statusCode);
     }
   }
+
 }
